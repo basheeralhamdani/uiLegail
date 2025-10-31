@@ -1,9 +1,11 @@
 {
-  "name": "lexiflow-react-app",
+  "name": "legail",
   "version": "0.1.0",
   "private": true,
   "dependencies": {
     "@play-ai/agent-web-sdk": "^0.2.13-agent-improvements-ai-alpha",
+    "@supabase/supabase-js": "^2.29.0",
+    "@tanstack/react-table": "^8.21.3",
     "@testing-library/dom": "^10.4.1",
     "@testing-library/jest-dom": "^6.9.1",
     "@testing-library/react": "^16.3.0",

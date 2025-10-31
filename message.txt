@@ -74,3 +74,4 @@ Execution & Notarization Details (Formal signing requirements)
 - Notary Public Name: Full name of notary witnessing signature
 - Notary Commission Expiration: Date when notary's commission expires
 - Witness Names: Names of any required witnesses, if applicable (though not always needed for trusts in Michigan)
+- Law Firm Details: Attorney/firm name, address, contact information for document preparation

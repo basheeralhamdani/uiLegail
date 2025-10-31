@@ -3,6 +3,8 @@ import { useParams, useNavigate } from 'react-router-dom';
 import { getMatter, updateMatter } from '../../../api/matters';
 import LadyBirdDeedIntake from './LadyBirdDeedIntake';
 import FullTrustIntake from './FullTruseIntake';
+import ProgressBar from '../clientintake/ProgressBar';
+import Branding from '../clientintake/Branding';
 
 const ClientIntake = () => {
   const { matterId } = useParams();
@@ -10,6 +12,9 @@ const ClientIntake = () => {
   const [matter, setMatter] = useState(null);
   const [formData, setFormData] = useState({});
   const [isSubmitted, setIsSubmitted] = useState(false);
+  const [currentStep, setCurrentStep] = useState(0);
+
+  const steps = ['Introduction', 'Intake Form', 'Confirmation'];
 
   useEffect(() => {
     const currentMatter = getMatter(matterId);
@@ -37,19 +42,20 @@ const ClientIntake = () => {
     }, 3000);
   };
 
-  const handleSendEmail = () => {
-    // Simulate sending an email
-    const clientIntakeUrl = `${window.location.origin}/client-intake/${matterId}`;
-    alert(`An email has been sent to the client with the following link to submit the form: ${clientIntakeUrl}` );
-    updateMatter(matterId, {
-      ...matter,
-      status: 'Pending Client Submission',
-    });
-    setMatter({ ...matter, status: 'Pending Client Submission' });
+  const handleNext = () => {
+    if (currentStep < steps.length - 1) {
+      setCurrentStep(currentStep + 1);
+    }
+  };
+
+  const handlePrev = () => {
+    if (currentStep > 0) {
+      setCurrentStep(currentStep - 1);
+    }
   };
 
   if (!matter) {
-    return <div>Loading...</div>;
+    return <div className="text-center p-8">Loading...</div>;
   }
 
   const renderForm = () => {
@@ -60,40 +66,63 @@ const ClientIntake = () => {
   };
 
   return (
-    <div className="w-full mx-auto bg-white dark:bg-gray-800 shadow-lg rounded-lg px-8">
-      <header className="bg-gray-100 dark:bg-gray-700 px-8 py-6 rounded-t-lg flex justify-between items-center">
-        <div>
-          <h1 className="text-3xl font-bold text-gray-800 dark:text-white">LexiFlow</h1>
-          <p className="text-gray-600 dark:text-gray-300">Secure Intake: {matter.documentType}</p>
-        </div>
-      </header>
+    <div className="w-full max-w-4xl mx-auto bg-white dark:bg-gray-800 shadow-lg rounded-lg my-12">
+      <div className="p-8">
+        <Branding firmName={matter.firmName || 'Your Law Firm'} />
+        <ProgressBar currentStep={currentStep} totalSteps={steps.length} />
 
-      {!isSubmitted ? (
-        <div className="p-8" id="client-intake-form">
-            <form onSubmit={handleSubmit}>
-              {renderForm()}
-              <div className="mt-10 pt-8 border-t border-gray-200 dark:border-gray-700">
-                <div className="flex justify-end gap-4">
-                  <button type="button" onClick={handleSendEmail} className="w-full sm:w-auto inline-flex justify-center rounded-md border border-transparent bg-green-600 py-3 px-12 text-lg font-semibold text-white shadow-sm hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500">
-                    Send to Client
-                  </button>
-                  <button type="submit" className="w-full sm:w-auto inline-flex justify-center rounded-md border border-transparent bg-blue-600 py-3 px-12 text-lg font-semibold text-white shadow-sm hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500" disabled={matter.status !== 'Pending Client Submission'}>
-                    Verify & Submit
-                  </button>
-                </div>
+        {!isSubmitted ? (
+          <form onSubmit={handleSubmit}>
+            {currentStep === 0 && (
+              <div>
+                <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-4">Welcome</h2>
+                <p className="text-gray-600 dark:text-gray-300">
+                  This secure portal will guide you through the process of providing the necessary information for your {matter.documentType}.
+                </p>
               </div>
-            </form>
-        </div>
-      ) : (
-        <div id="success-message" className="text-center p-12">
-          <svg className="mx-auto h-16 w-16 text-green-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
-          </svg>
-          <h3 className="mt-4 text-3xl font-bold text-gray-900 dark:text-white">Submission Confirmed!</h3>
-          <p className="mt-3 text-lg text-gray-600 dark:text-gray-400">Your information has been securely submitted. Your attorney will now draft the necessary documents.</p>
-          <p className="mt-6 text-md text-gray-500 dark:text-gray-500">You will be redirected shortly.</p>
-        </div>
-      )}
+            )}
+
+            {currentStep === 1 && renderForm()}
+
+            {currentStep === 2 && (
+              <div>
+                <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-4">Confirmation</h2>
+                <p className="text-gray-600 dark:text-gray-300">
+                  Please review your information before submitting.
+                </p>
+                {/* Add a summary of the entered data here */}
+              </div>
+            )}
+
+            <div className="mt-10 pt-8 border-t border-gray-200 dark:border-gray-700 flex justify-between">
+              {currentStep > 0 && (
+                <button type="button" onClick={handlePrev} className="bg-gray-200 hover:bg-gray-300 text-gray-800 font-bold py-2 px-4 rounded-lg">
+                  Previous
+                </button>
+              )}
+              {currentStep < steps.length - 1 && (
+                <button type="button" onClick={handleNext} className="bg-primary-color hover:bg-primary-color-hover text-white font-bold py-2 px-4 rounded-lg ml-auto">
+                  Next
+                </button>
+              )}
+              {currentStep === steps.length - 1 && (
+                <button type="submit" className="bg-accent-color hover:bg-green-700 text-white font-bold py-2 px-4 rounded-lg ml-auto">
+                  Verify & Submit
+                </button>
+              )}
+            </div>
+          </form>
+        ) : (
+          <div className="text-center p-12">
+            <svg className="mx-auto h-16 w-16 text-green-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+            </svg>
+            <h3 className="mt-4 text-3xl font-bold text-gray-900 dark:text-white">Submission Confirmed!</h3>
+            <p className="mt-3 text-lg text-gray-600 dark:text-gray-400">Your information has been securely submitted. Your attorney will now draft the necessary documents.</p>
+            <p className="mt-6 text-md text-gray-500 dark:text-gray-500">You will be redirected shortly.</p>
+          </div>
+        )}
+      </div>
     </div>
   );
 };
