@@ -3,6 +3,7 @@ import { useParams, useNavigate } from 'react-router-dom';
 import { getMatter, updateMatter } from '../../../api/matters';
 import ChatBubble from '../conversationalintake/ChatBubble';
 import Branding from '../clientintake/Branding';
+import agentBridge from '../../../utils/agentBridge';
 
 const ConversationalIntake = () => {
   const { matterId } = useParams();
@@ -13,6 +14,8 @@ const ConversationalIntake = () => {
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
   const [collectedData, setCollectedData] = useState({});
   const [isTyping, setIsTyping] = useState(false);
+  const [consentGiven, setConsentGiven] = useState(false);
+  const [callState, setCallState] = useState('idle'); // idle | ringing | in-progress | ended
   const chatEndRef = useRef(null);
 
   const questions = [
@@ -27,14 +30,7 @@ const ConversationalIntake = () => {
 
   useEffect(() => {
     const currentMatter = getMatter(matterId);
-    if (currentMatter) {
-      setMatter(currentMatter);
-      setIsTyping(true);
-      setTimeout(() => {
-        setTranscript([{ speaker: 'AI Agent', text: questions[0].text }]);
-        setIsTyping(false);
-      }, 1500);
-    }
+    if (currentMatter) setMatter(currentMatter);
   }, [matterId]);
 
   useEffect(() => {
@@ -77,6 +73,84 @@ const ConversationalIntake = () => {
     }, 1500);
   };
 
+  // Handler to receive events from a caller agent (SDK or webhook proxy).
+  // Payload example: { type: 'answer', questionKey: 'grantorName', text: 'John Doe' }
+  const handleAgentEvent = (payload) => {
+    if (!payload) return;
+    if (payload.type === 'question') {
+      setTranscript(prev => [...prev, { speaker: 'AI Agent', text: payload.text }]);
+      return;
+    }
+    if (payload.type === 'answer') {
+      const { questionKey, text } = payload;
+      const newTranscript = [...transcript, { speaker: 'Client', text }];
+      const newCollectedData = { ...collectedData, [questionKey]: text };
+      setTranscript(prev => [...prev, { speaker: 'Client', text }]);
+      setCollectedData(newCollectedData);
+
+      const nextIndex = currentQuestionIndex + 1;
+      if (nextIndex < questions.length) {
+        const nextQuestion = questions[nextIndex];
+        setTranscript(prev => [...prev, { speaker: 'AI Agent', text: nextQuestion.text }]);
+        setCurrentQuestionIndex(nextIndex);
+      } else {
+        const closingMessage = "Thank you. I have all the information I need. An attorney will review this and be in touch shortly.";
+        setTranscript(prev => [...prev, { speaker: 'AI Agent', text: closingMessage }]);
+        updateMatter(matterId, {
+          status: 'Awaiting Attorney Review',
+          data: newCollectedData,
+          transcript: [...transcript, { speaker: 'Client', text }, { speaker: 'AI Agent', text: closingMessage }],
+          lastActivity: 'Client submitted AI intake via caller agent'
+        });
+        setTimeout(() => navigate('/'), 3000);
+        setCallState('ended');
+      }
+    }
+  };
+
+  // Expose handler for development so a caller-agent SDK or manual test can invoke it.
+  useEffect(() => {
+    window.__legailHandleAgentEvent = handleAgentEvent;
+    return () => { window.__legailHandleAgentEvent = undefined; };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [transcript, collectedData, currentQuestionIndex]);
+
+  // Start agentBridge in development to receive mock-agent events automatically
+  useEffect(() => {
+    const stop = agentBridge.startAgentBridge(handleAgentEvent);
+    return () => stop && stop();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  const startCall = () => {
+    if (!consentGiven) {
+      alert('Please provide consent before starting the call.');
+      return;
+    }
+    setCallState('ringing');
+    setTimeout(() => {
+      setCallState('in-progress');
+      // Start with first AI question
+      setIsTyping(true);
+      setTimeout(() => {
+        setTranscript([{ speaker: 'AI Agent', text: questions[0].text }]);
+        setIsTyping(false);
+        setCurrentQuestionIndex(0);
+      }, 1000);
+    }, 1200);
+  };
+
+  // Local simulator for the caller agent (dev only) — will auto-answer using provided mockAnswers if given
+  const simulateAgentCall = (mockAnswers = []) => {
+    startCall();
+    // schedule answers
+    mockAnswers.forEach((ans, i) => {
+      setTimeout(() => {
+        handleAgentEvent({ type: 'answer', questionKey: questions[i].key, text: ans });
+      }, 3000 * (i + 1));
+    });
+  };
+
   if (!matter) {
     return <div className="text-center p-8">Loading...</div>;
   }
@@ -87,6 +161,21 @@ const ConversationalIntake = () => {
         <Branding firmName={matter.firmName || 'Your Law Firm'} />
         <p className="text-gray-600 dark:text-gray-300 text-sm -mt-6 ml-16">Secure Intake: {matter.documentType}</p>
       </header>
+      <div className="px-6 py-4 border-b bg-gray-50 dark:bg-gray-800">
+        {callState === 'idle' && (
+          <div className="flex items-center gap-4">
+            <label className="flex items-center gap-2">
+              <input type="checkbox" checked={consentGiven} onChange={(e) => setConsentGiven(e.target.checked)} />
+              <span className="text-sm">I consent to recording/transmitting audio for intake.</span>
+            </label>
+            <button onClick={startCall} className="ml-4 bg-green-600 hover:bg-green-700 text-white px-3 py-2 rounded">Start Call</button>
+            <button onClick={() => simulateAgentCall(['John Doe','Jane Smith','123 Main St','Wayne','A123','Sunnyvale','Lot 1'])} className="ml-2 bg-gray-300 hover:bg-gray-400 text-black px-3 py-2 rounded">Simulate Call (dev)</button>
+          </div>
+        )}
+        {callState === 'ringing' && <div className="text-sm text-yellow-700">Call is ringing...</div>}
+        {callState === 'in-progress' && <div className="text-sm text-green-700">Call in progress — collecting answers</div>}
+        {callState === 'ended' && <div className="text-sm text-gray-600">Call ended. Thank you.</div>}
+      </div>
       <div className="flex-1 p-6 space-y-6 overflow-y-auto">
         {transcript.map((item, index) => (
           <ChatBubble key={index} item={item} />

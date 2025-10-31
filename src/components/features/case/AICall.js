@@ -1,11 +1,13 @@
 import React, { useState, useEffect } from 'react';
 import { getMatter, updateMatter } from '../../../api/matters';
+import agentBridge from '../../../utils/agentBridge';
 
 const AICall = ({ matterId, closeModal }) => {
   const [transcript, setTranscript] = useState([]);
   const [clientInput, setClientInput] = useState('');
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
   const [collectedData, setCollectedData] = useState({});
+  const [consentGiven, setConsentGiven] = useState(false);
 
   // Hardcoded questions for Lady Bird Deed
   const questions = [
@@ -21,6 +23,20 @@ const AICall = ({ matterId, closeModal }) => {
   useEffect(() => {
     // Start the conversation
     setTranscript([{ speaker: 'AI Agent', text: questions[0].text }]);
+    // expose dev hook
+    window.__legailHandleAgentEvent = (payload) => {
+      if (!payload) return;
+      if (payload.type === 'answer') {
+        const { questionKey, text } = payload;
+        setTranscript(prev => [...prev, { speaker: 'Client', text }]);
+        setCollectedData(prev => ({ ...prev, [questionKey]: text }));
+      }
+    };
+    // auto-connect to mock agent
+    const stop = agentBridge.startAgentBridge((p) => {
+      if (p && p.type === 'answer') window.__legailHandleAgentEvent(p);
+    });
+    return () => stop && stop();
   }, []);
 
   const handleInputChange = (e) => {
