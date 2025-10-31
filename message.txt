@@ -1,0 +1,76 @@
+LADY BIRD DEED
+
+Grantee Information (Person receiving the property)
+- Full Legal Name: Complete name as it should appear on legal documents
+- Complete Mailing Address: Street address, city, state, ZIP code
+
+Grantor Information (Current property owner transferring the property)
+- Full Legal Name: Complete name as it appears on current property deed
+- Complete Mailing Address: Street address, city, state, ZIP code
+
+Property Details (Complete legal description of the real estate)
+- Lot Number: Official lot designation from plat map
+- Subdivision Name: Official recorded subdivision name
+- County: County where property is located
+- Legal Description: Complete legal description from current deed or survey
+- Tax Parcel Number: Official tax assessor's parcel identification number
+- Common Street Address: Physical address of the property (e.g., 123 Main Street, City, State ZIP)
+
+Conveyance Rights & Powers (Legal rights retained by grantor)
+- Lifetime Rights: Grantor retains full ownership and control during their lifetime (life estate)
+- Power to Convey: Grantor retains right to sell, mortgage, or transfer property without grantee consent
+
+Tax Exemptions & Legal Clauses
+- Transfer Tax Exemption: Documentation that transfer qualifies for tax exemption under applicable state law
+
+Execution & Notarization Details
+- Execution Date: Date when deed is signed and executed
+- Notary Public Name: Full name of notary public witnessing signatures
+- Notary Commission Expiration: Date when notary's commission expires
+- Law Firm Details: Attorney/firm name, address, contact information for document preparation
+
+
+FULL TRUST
+
+Grantor Information (Person creating and funding the trust)
+- Full Legal Name: Complete name of the grantor as it appears on legal documents
+- Complete Mailing Address: Street address, city, state, ZIP code (e.g., Dearborn, Michigan)
+- Date of Trust Execution: Date when the trust is signed (e.g., July 31, 2025)
+
+Trust Identification (Details to uniquely identify the trust)
+- Trust Name: Formal name of the revocable living trust (e.g., [Grantor's Name] Revocable Living Trust)
+- Amendments: Any prior amendments to the trust, if applicable
+
+Family Information (Details about marital status and descendants for distribution purposes)
+- Marital Status: Whether unmarried, married, widowed, or divorced
+- Children's Names and Birthdates: Full names and dates of birth for each child
+- References to Descendants: Specification that descendants include children and their descendants, including any deceased
+
+Trustee Information (Persons managing the trust)
+- Initial Trustee Name: Name of the initial trustee (typically the grantor)
+- Successor Trustee Names: Names of successor trustees in order (e.g., First successor, then second if first unable)
+- Co-Trustee Names: Any co-trustees if applicable
+
+Beneficiary Information (Persons or entities receiving trust assets)
+- Beneficiary Names: Full names of primary beneficiaries (e.g., children or others)
+- Shares or Percentages: Distribution shares for each beneficiary (e.g., 50% to each child)
+- Contingent Beneficiaries: Names and shares if primary beneficiaries predecease or are unable
+- Special Provisions: Any specific conditions, such as for underage or incapacitated beneficiaries
+
+Asset Details (Property transferred into the trust, listed in Schedule A)
+- Asset Descriptions: Complete list of assets, including real estate (legal description, address, parcel number), personal property, bank accounts, investments, and other tangible/intangible items
+- Initial Funding: Nominal initial asset (e.g., Ten Dollars cash) to establish the trust
+
+Powers and Provisions (Specific rights retained or granted)
+- Reserved Powers: Grantor's retained powers, such as to amend, revoke, add/remove property, or control distributions
+- Incapacity Definitions: Criteria for determining grantor's incapacity (e.g., opinion of two physicians or court determination)
+
+Tax and Legal Clauses (Compliance and exemptions)
+- Tax Identification Number: Social Security Number of grantor used as trust's tax ID
+- Governing Law: State laws under which the trust is governed (e.g., Michigan)
+
+Execution & Notarization Details (Formal signing requirements)
+- Execution Date: Date when trust is signed
+- Notary Public Name: Full name of notary witnessing signature
+- Notary Commission Expiration: Date when notary's commission expires
+- Witness Names: Names of any required witnesses, if applicable (though not always needed for trusts in Michigan)
