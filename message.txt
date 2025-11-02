@@ -1,77 +1,79 @@
-LADY BIRD DEED
-
-Grantee Information (Person receiving the property)
-- Full Legal Name: Complete name as it should appear on legal documents
-- Complete Mailing Address: Street address, city, state, ZIP code
-
-Grantor Information (Current property owner transferring the property)
-- Full Legal Name: Complete name as it appears on current property deed
-- Complete Mailing Address: Street address, city, state, ZIP code
-
-Property Details (Complete legal description of the real estate)
-- Lot Number: Official lot designation from plat map
-- Subdivision Name: Official recorded subdivision name
-- County: County where property is located
-- Legal Description: Complete legal description from current deed or survey
-- Tax Parcel Number: Official tax assessor's parcel identification number
-- Common Street Address: Physical address of the property (e.g., 123 Main Street, City, State ZIP)
-
-Conveyance Rights & Powers (Legal rights retained by grantor)
-- Lifetime Rights: Grantor retains full ownership and control during their lifetime (life estate)
-- Power to Convey: Grantor retains right to sell, mortgage, or transfer property without grantee consent
-
-Tax Exemptions & Legal Clauses
-- Transfer Tax Exemption: Documentation that transfer qualifies for tax exemption under applicable state law
-
-Execution & Notarization Details
-- Execution Date: Date when deed is signed and executed
-- Notary Public Name: Full name of notary public witnessing signatures
-- Notary Commission Expiration: Date when notary's commission expires
-- Law Firm Details: Attorney/firm name, address, contact information for document preparation
-
-
-FULL TRUST
-
-Grantor Information (Person creating and funding the trust)
-- Full Legal Name: Complete name of the grantor as it appears on legal documents
-- Complete Mailing Address: Street address, city, state, ZIP code (e.g., Dearborn, Michigan)
-- Date of Trust Execution: Date when the trust is signed (e.g., July 31, 2025)
-
-Trust Identification (Details to uniquely identify the trust)
-- Trust Name: Formal name of the revocable living trust (e.g., [Grantor's Name] Revocable Living Trust)
-- Amendments: Any prior amendments to the trust, if applicable
-
-Family Information (Details about marital status and descendants for distribution purposes)
-- Marital Status: Whether unmarried, married, widowed, or divorced
-- Children's Names and Birthdates: Full names and dates of birth for each child
-- References to Descendants: Specification that descendants include children and their descendants, including any deceased
-
-Trustee Information (Persons managing the trust)
-- Initial Trustee Name: Name of the initial trustee (typically the grantor)
-- Successor Trustee Names: Names of successor trustees in order (e.g., First successor, then second if first unable)
-- Co-Trustee Names: Any co-trustees if applicable
-
-Beneficiary Information (Persons or entities receiving trust assets)
-- Beneficiary Names: Full names of primary beneficiaries (e.g., children or others)
-- Shares or Percentages: Distribution shares for each beneficiary (e.g., 50% to each child)
-- Contingent Beneficiaries: Names and shares if primary beneficiaries predecease or are unable
-- Special Provisions: Any specific conditions, such as for underage or incapacitated beneficiaries
-
-Asset Details (Property transferred into the trust, listed in Schedule A)
-- Asset Descriptions: Complete list of assets, including real estate (legal description, address, parcel number), personal property, bank accounts, investments, and other tangible/intangible items
-- Initial Funding: Nominal initial asset (e.g., Ten Dollars cash) to establish the trust
-
-Powers and Provisions (Specific rights retained or granted)
-- Reserved Powers: Grantor's retained powers, such as to amend, revoke, add/remove property, or control distributions
-- Incapacity Definitions: Criteria for determining grantor's incapacity (e.g., opinion of two physicians or court determination)
-
-Tax and Legal Clauses (Compliance and exemptions)
-- Tax Identification Number: Social Security Number of grantor used as trust's tax ID
-- Governing Law: State laws under which the trust is governed (e.g., Michigan)
-
-Execution & Notarization Details (Formal signing requirements)
-- Execution Date: Date when trust is signed
-- Notary Public Name: Full name of notary witnessing signature
-- Notary Commission Expiration: Date when notary's commission expires
-- Witness Names: Names of any required witnesses, if applicable (though not always needed for trusts in Michigan)
-- Law Firm Details: Attorney/firm name, address, contact information for document preparation
+i have install new project and install spec kit in it and i want you know if i can merge this project in it so
+  first i want you to check this  "Assessment: Can your existing React files work?
+What the plan expects
+Framework: Next.js 14+ (App Router), not Create React App
+Language: TypeScript
+Styling: Tailwind CSS
+Structure: frontend/src/app/ (App Router), frontend/src/components/, frontend/src/lib/
+Compatibility scenarios
+Scenario 1: Plain React (Create React App / Vite)
+Status: Not directly compatible
+Options:
+Migrate to Next.js (recommended for this plan)
+Adapt the plan to use your current setup (requires plan updates)
+Migration path:
+Keep your components (move to frontend/src/components/)
+Convert routes to Next.js App Router (app/ directory)
+Migrate state management to align with Next.js patterns
+Add Tailwind CSS if not already using it
+Scenario 2: Next.js with Pages Router (older Next.js)
+Status: Partially compatible
+What to do:
+Migrate Pages Router → App Router (plan expects App Router)
+Your components can mostly stay the same
+Routes need updating: pages/ → app/
+Scenario 3: Next.js 14+ with App Router + TypeScript + Tailwind
+Status: Fully compatible
+What to do:
+Verify folder structure matches the plan
+Ensure Supabase integration is set up
+Align components with the plan structure
+Recommendation
+Option A: Use your existing code (adaptation)
+If you have substantial React components:
+Keep your components — move them to frontend/src/components/
+Adapt the plan — update paths/structure to match your setup
+Add missing pieces:
+Supabase integration
+Gemini mediation layer
+Tailwind CSS (if not already)
+TypeScript types (from shared/types/)
+What you'd need to change:
+Update tasks.md paths to match your structure
+Add migration steps for existing components
+Ensure constitutional requirements are met (Gemini-only, triggers, etc.)
+Option B: Start fresh (recommended)
+If you're early in development:
+Start from the plan — follow the task list as written
+Reuse components — port your React components into the Next.js structure
+Benefits:
+Matches the plan exactly
+Better SSR/performance
+Built-in API routes
+Easier team onboarding
+Questions to determine compatibility
+What React setup do you have?
+[ ] Create React App
+[ ] Vite + React
+[ ] Next.js (which version?)
+[ ] Other
+What's your folder structure?
+Example: src/components/, src/pages/, etc.
+How much code do you have?
+[ ] Just a few components
+[ ] Complete features
+[ ] Most of the app
+What dependencies are you using?
+State management (Redux, Zustand, Context)?
+Styling (CSS, styled-components, Tailwind)?
+TypeScript?
+Next steps
+Share:
+Your current setup (framework, structure, dependencies)
+What components/features you've built
+Then I can:
+Assess compatibility
+Update the plan/tasks to match your structure
+Create a migration guide
+Help adapt your existing code to work with the plan
+Answer: You don't need to start from scratch. We can adapt the plan to your existing code or migrate incrementally. The choice depends on what you've built and how much it aligns with Next.js + TypeScript + Tailwind."
