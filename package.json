@@ -22,6 +22,8 @@
     "test": "react-scripts test",
     "eject": "react-scripts eject",
     "mock-agent": "node mock-agent/server.js"
+  ,
+  "telephony-server": "node server/telephony/index.js"
   },
   "eslintConfig": {
     "extends": [
